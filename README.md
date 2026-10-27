@@ -35,13 +35,10 @@ built using the MERN stack.
 - Schedule interviews
 - Update application status
 
-### Admin
-- Manage users
-- Manage companies
-- Manage jobs
-- Dashboard
+
 
 ## Project Structure
+
 
 ## API Documentation
 
