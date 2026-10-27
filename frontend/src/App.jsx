@@ -11,6 +11,7 @@ import RecruiterDashboard from "./pages/RecruiterDashboard";
 import AdminDashboard from "./pages/AdminDashboard";
 import CreateJob from "./pages/CreateJob";
 import Applications from "./pages/Applications";
+import VerifyEmail from "./pages/VerifyEmail";
 
 function App() {
   return (
@@ -23,6 +24,7 @@ function App() {
           <Route path="/jobs/:id" element={<JobDetails />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
+          <Route path="/verify-email" element={<VerifyEmail />} />
 
           <Route path="/candidate" element={<ProtectedRoute roles={["candidate"]}><CandidateDashboard /></ProtectedRoute>} />
           <Route path="/recruiter" element={<ProtectedRoute roles={["recruiter"]}><RecruiterDashboard /></ProtectedRoute>} />

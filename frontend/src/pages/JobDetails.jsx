@@ -1,11 +1,15 @@
+import { useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { useApp } from "../context/AppContext";
 import { StatusBadge } from "../components/ui";
 
 function JobDetails() {
   const { id } = useParams();
-  const { jobs, user, apply, hasApplied } = useApp();
-  const job = jobs.find((item) => item.id === Number(id));
+  const { jobs, user, apply, hasApplied, loading } = useApp();
+  const job = jobs.find((item) => String(item.id) === id);
+  const [applyError, setApplyError] = useState("");
+
+  if (loading) return <div className="page-container"><p>Loading job...</p></div>;
 
   if (!job) {
     return (
@@ -28,7 +32,10 @@ function JobDetails() {
           You applied for this job. Current status: <StatusBadge status={application.status} />
         </p>
       );
-    return <button className="button" onClick={() => apply(job.id)}>Apply now</button>;
+    return <button className="button" onClick={async () => {
+      const result = await apply(job.id);
+      if (!result.ok) setApplyError(result.error);
+    }}>Apply now</button>;
   }
 
   return (
@@ -68,6 +75,7 @@ function JobDetails() {
       <aside className="apply-card">
         <h2>Interested in this role?</h2>
         <p>{job.company} · {job.location}</p>
+        {applyError && <p className="form-error" role="alert">{applyError}</p>}
         {renderAction()}
       </aside>
     </div>

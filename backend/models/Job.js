@@ -14,15 +14,16 @@ const jobSchema = new mongoose.Schema(
 
         location: String,
 
-        salary: {
-            min: Number,
-            max: Number
-        },
+        salary: String,
 
         jobType: {
             type: String,
-            enum: ["Full Time", "Part Time", "Internship"]
+            enum: ["Full-time", "Part-time", "Internship", "Contract"]
         },
+
+        experience: String,
+
+        responsibilities: [String],
 
         skills: [String],
 

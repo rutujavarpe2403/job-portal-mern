@@ -1,22 +1,43 @@
 import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { dashboardPath, useApp } from "../context/AppContext";
+import { Link } from "react-router-dom";
+import { useApp } from "../context/AppContext";
 
 function Register() {
-  const { register } = useApp();
-  const navigate = useNavigate();
+  const { register, resendVerification } = useApp();
   const [error, setError] = useState("");
+  const [verificationSent, setVerificationSent] = useState(false);
+  const [resendMessage, setResendMessage] = useState("");
   const [formData, setFormData] = useState({ name: "", email: "", password: "", role: "candidate" });
 
   function handleChange(e) {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   }
 
-  function handleSubmit(e) {
+  async function handleSubmit(e) {
     e.preventDefault();
-    const result = register(formData);
+    const result = await register(formData);
     if (!result.ok) return setError(result.error);
-    navigate(dashboardPath(result.user.role), { replace: true });
+    setError("");
+    setVerificationSent(true);
+  }
+
+  async function handleResend() {
+    const result = await resendVerification(formData.email);
+    setResendMessage(result.ok ? result.message : result.error);
+  }
+
+  if (verificationSent) {
+    return (
+      <div className="auth-page">
+        <section className="auth-card">
+          <h1>Verify your email</h1>
+          <p>We sent a verification link to {formData.email}. Open it to activate your account.</p>
+          <button type="button" className="button full-width" onClick={handleResend}>Resend verification email</button>
+          {resendMessage && <p role="status">{resendMessage}</p>}
+          <p className="auth-footer"><Link to="/login">Return to login</Link></p>
+        </section>
+      </div>
+    );
   }
 
   return (
@@ -26,6 +47,11 @@ function Register() {
         <p>Join JobConnect and start in minutes.</p>
 
         {error && <p className="form-error" role="alert">{error}</p>}
+        {error.includes("verification email") && <p>Check your mail settings or request another verification link.</p>}
+        {(error.includes("verification email") || error.includes("already exists")) && (
+          <button type="button" className="link-button" onClick={handleResend}>Resend verification email</button>
+        )}
+        {resendMessage && <p role="status">{resendMessage}</p>}
 
         <div className="role-toggle" role="radiogroup" aria-label="Account type">
           {[["candidate", "I'm looking for a job"], ["recruiter", "I'm hiring"]].map(([value, text]) => (

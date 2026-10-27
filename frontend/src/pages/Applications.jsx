@@ -1,15 +1,28 @@
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import { useApp } from "../context/AppContext";
 import { STATUSES, StatusBadge, formatDate } from "../components/ui";
 
 function Applications() {
   const { user, jobs, applications, setStatus } = useApp();
+  const [notice, setNotice] = useState("");
   const isRecruiter = user.role === "recruiter";
 
   const myJobIds = jobs.filter((j) => j.recruiterEmail === user.email).map((j) => j.id);
   const list = applications.filter((a) =>
     isRecruiter ? myJobIds.includes(a.jobId) : a.candidateEmail === user.email
   );
+
+  async function handleStatusChange(applicationId, status) {
+    const result = await setStatus(applicationId, status);
+    if (!result.ok) {
+      setNotice(result.error);
+    } else if (result.notificationSent === false) {
+      setNotice("Status saved, but the email notification was not sent. Check the SMTP settings.");
+    } else {
+      setNotice("");
+    }
+  }
 
   return (
     <div className="page-container">
@@ -19,6 +32,7 @@ function Applications() {
       </header>
 
       <section className="panel">
+        {notice && <p className="note" role="status">{notice}</p>}
         {list.length === 0 ? (
           <p className="empty-message">
             {isRecruiter ? "No applications yet." : <>You haven't applied to any jobs. <Link to="/jobs">Find a job</Link>.</>}
@@ -47,7 +61,7 @@ function Applications() {
                       <td>
                         {isRecruiter ? (
                           <select className="status-select" value={a.status} aria-label={`Status for ${a.candidateName}`}
-                            onChange={(e) => setStatus(a.id, e.target.value)}>
+                            onChange={(e) => handleStatusChange(a.id, e.target.value)}>
                             {STATUSES.map((s) => <option key={s}>{s}</option>)}
                           </select>
                         ) : (

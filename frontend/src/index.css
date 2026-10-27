@@ -81,7 +81,10 @@ h1, h2, h3 { line-height: 1.2; letter-spacing: -0.02em; }
 
 /* ---------- Home ---------- */
 .hero {
-  max-width: 1120px; margin: 0 auto; padding: 72px 20px 56px;
+  max-width: none; min-height: 540px; margin: 0; padding: 72px max(20px, calc((100% - 1120px) / 2)) 56px;
+  background:
+    linear-gradient(90deg, rgba(245,247,251,.9) 0%, rgba(245,247,251,.82) 43%, rgba(245,247,251,.48) 68%, rgba(245,247,251,.12) 100%),
+    url("https://images.unsplash.com/photo-1556761175-b413da4baf72?auto=format&fit=crop&w=2000&q=85") center 48% / cover no-repeat;
   display: grid; grid-template-columns: 1.15fr 1fr; gap: 56px; align-items: center;
 }
 .hero h1 { font-size: clamp(2.2rem, 5vw, 3.6rem); font-weight: 800; letter-spacing: -0.035em; }
@@ -231,13 +234,21 @@ input:focus, select:focus, textarea:focus { outline: none; border-color: var(--b
 /* ---------- Responsive ---------- */
 @media (max-width: 900px) {
   .hero, .details-layout { grid-template-columns: 1fr; }
-  .hero { padding-top: 40px; gap: 36px; }
+  .hero { padding-top: 40px; gap: 36px; background-position: 58% center; }
   .feature-grid { grid-template-columns: 1fr; gap: 24px; }
   .apply-card { position: static; }
 }
 @media (max-width: 640px) {
   .search-panel, .form-grid { grid-template-columns: 1fr; }
   .form-grid .span-2 { grid-column: auto; }
+  .hero {
+    min-height: 0;
+    padding: 44px 20px;
+    background-image:
+      linear-gradient(180deg, rgba(245,247,251,.86) 0%, rgba(245,247,251,.76) 48%, rgba(245,247,251,.62) 100%),
+      url("https://images.unsplash.com/photo-1556761175-b413da4baf72?auto=format&fit=crop&w=1200&q=85");
+    background-position: 58% center;
+  }
   .hero-search { flex-direction: column; }
   .details-card, .apply-card, .auth-card { padding: 22px; }
   .cta-band { padding: 28px; }

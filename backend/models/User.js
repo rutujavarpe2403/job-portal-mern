@@ -18,6 +18,15 @@ const userSchema = new mongoose.Schema(
             required: true
         },
 
+        emailVerified: {
+            type: Boolean,
+            default: true
+        },
+
+        emailVerificationToken: String,
+
+        emailVerificationExpires: Date,
+
         role: {
             type: String,
             enum: ["candidate", "recruiter", "admin"],
