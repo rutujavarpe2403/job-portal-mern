@@ -17,6 +17,7 @@ function Home() {
     <div>
       <section className="hero">
         <div className="hero-copy">
+          <p className="hero-eyebrow">Your next chapter starts here</p>
           <h1>Find a job that fits your skills and your life.</h1>
           <p className="hero-text">
             Search openings from {companies} companies, apply in one click, and

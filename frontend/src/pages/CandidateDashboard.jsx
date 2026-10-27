@@ -11,7 +11,7 @@ function CandidateDashboard() {
   const suggested = jobs.filter((j) => !appliedIds.includes(j.id)).slice(0, 3);
 
   return (
-    <div className="page-container">
+    <div className="page-container dashboard-page">
       <header className="page-heading">
         <h1>Hello, {user.name.split(" ")[0]}</h1>
         <p>Here is where your job search stands today.</p>

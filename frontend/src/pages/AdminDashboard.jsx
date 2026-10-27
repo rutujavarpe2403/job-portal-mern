@@ -7,7 +7,7 @@ function AdminDashboard() {
   const count = (role) => users.filter((u) => u.role === role).length;
 
   return (
-    <div className="page-container">
+    <div className="page-container dashboard-page">
       <header className="page-heading">
         <h1>Admin dashboard</h1>
         <p>Oversee users, jobs and applications across JobConnect.</p>

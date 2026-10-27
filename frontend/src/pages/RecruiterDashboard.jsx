@@ -9,7 +9,7 @@ function RecruiterDashboard() {
   const received = applications.filter((a) => myIds.includes(a.jobId));
 
   return (
-    <div className="page-container">
+    <div className="page-container dashboard-page">
       <header className="page-heading row">
         <div>
           <h1>Recruiter dashboard</h1>

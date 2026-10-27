@@ -25,7 +25,7 @@ function Applications() {
   }
 
   return (
-    <div className="page-container">
+    <div className="page-container dashboard-page">
       <header className="page-heading">
         <h1>{isRecruiter ? "Applicants" : "My applications"}</h1>
         <p>{isRecruiter ? "Review candidates and update their status." : "Track the status of every job you applied for."}</p>
